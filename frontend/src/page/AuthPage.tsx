@@ -1,5 +1,9 @@
 function AuthPage() {
-  return <div>나는 authPage이다</div>;
+  return (
+    <div>
+      <input></input>
+    </div>
+  );
 }
 
 export default AuthPage;
