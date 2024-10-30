@@ -1,7 +1,8 @@
-import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import AuthLoginPage from "./page/AuthLoginPage";
 import AuthPage from "./page/AuthPage";
+import MainPage from "./page/MainPage";
 import TodoDetailPage from "./page/TodoDetailPage";
 import TodoListPage from "./page/TodoListPage";
 // https://study-ihl.tistory.com/89
@@ -14,17 +15,13 @@ import TodoListPage from "./page/TodoListPage";
 // https://recoiljs.org/ko/docs/basic-tutorial/atoms
 // https://reactrouter.com/en/main/route/route
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<MainPage />} />
         <Route path="/auth" element={<AuthPage />} />
-        {/* 👈 Renders at /app/ */}
-        <Route path="/todos" element={<TodoListPage />}>
-          {/* <Route index element={<TodoListPage />} /> */}
-          {/* <Route path=":todoId" element={<TodoDetailPage />} /> */}
-        </Route>
+        <Route path="/auth/login" element={<AuthLoginPage />} />
+        <Route path="/todos" element={<TodoListPage />} />
 
         <Route path="/todos/:todoId" element={<TodoDetailPage />} />
       </Routes>
