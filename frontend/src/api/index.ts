@@ -21,13 +21,10 @@ instance.interceptors.request.use(
   function (config) {
     // 요청 전에는 ㅁaccessToken을 가져와서 유효성 검사를 한다?
     const accessToken = localStorage.getItem("accessToken");
-    console.log("accessToken", accessToken);
+    console.log("나는야 인터셉터 request");
+
     // accessToken이 있는 경우 유효성 검사
     if (accessToken) {
-      // 아래와 같은 롸직을 넣으면은 무한루프 거린다 왜쥬?
-      // const isTokenValid = await verifyAccesToken(accessToken);
-      // console.log("isTokenValid", isTokenValid);
-
       // token이 유효한가여?
       if (validToken(accessToken)) {
         window.location.href = "/";
@@ -48,37 +45,15 @@ instance.interceptors.request.use(
 
 // 응답 인터셉터 추가하기
 
-//
 instance.interceptors.response.use(
   async function (response) {
-    // console.log("response", response);
-    // const statusCode = response.status;
     console.log("response", response);
     const { token, message } = response.data;
     if (token) {
       localStorage.setItem("accessToken", token);
       alert(message);
+      window.location.href = "/";
     }
-    // if (token) {
-    //   // 유효성 검사
-    //   const isValidToken = await verifyAccesToken(token);
-    //   console.log("isValid", isValidToken);
-    //   if(isValidToken.result){
-
-    //   }
-    // }
-    //  200번일떄
-    // if (statusCode === 200) {
-    //   const accessToken = response.data.token;
-    //   console.log("accessToken", accessToken);
-    //   // accessToken이 있다면은?
-    //   if (accessToken) {
-    //     // 유효성 검사!
-    //     const result = await verifyAccesToken(accessToken);
-    //     console.log("rrr", result);
-    //     localStorage.setItem("accessToken", accessToken);
-    //   }
-    // }
 
     return response.data;
   },

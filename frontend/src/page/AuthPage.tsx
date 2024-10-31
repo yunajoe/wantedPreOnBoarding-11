@@ -23,15 +23,44 @@ function AuthPage() {
   const [repasswordValid, setRePasswordValid] = useState(false);
   const [isActivate, setIsActivate] = useState(true);
 
+  console.log("AuthPagerender====>");
+
   // 훅!
+
+  const initialStateFunc = () => {
+    setEmail("");
+    setPassword("");
+    setRepassword("");
+    resetRegistrationMuation();
+  };
   const queryClient = useQueryClient();
 
   const registerMutation = useMutation({
     mutationFn: signUp,
+    // mutation 함수가 호출되기 전에 실행
+    onMutate: () => {
+      console.log("onMutateFUnction");
+    },
+    // mutation이 성공할 때 호출
     onSuccess: () => {
+      console.log("onSuccess");
+      //    // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["user/register"] });
     },
+    // mutation이 성공하거나 실패한 후 실행됩니다. 데이터와 오류를 모두 받습니다.
+    onSettled: () => {
+      console.log("settle");
+      initialStateFunc();
+    },
+    // mutation이 실패할 때 호출
+    onError: () => {
+      console.log("error");
+    },
   });
+
+  const resetRegistrationMuation = () => {
+    registerMutation.reset();
+  };
 
   const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
@@ -54,11 +83,6 @@ function AuthPage() {
     setRePasswordValid(rePasswordRgex(password, e.target.value));
   };
 
-  // const handleSubmit = async (email: string, password: string) => {
-  //   const result = await signUp(email, password);
-  //   console.log("handleSubmit", result);
-  // };
-
   return (
     <Box
       sx={{
@@ -80,6 +104,7 @@ function AuthPage() {
           onChange={handleEmailChange}
           color="primary"
           margin="normal"
+          value={email}
         />
         <FormHelperText error={!emailValid}>
           {email.length > 0 && !emailValid && "유효하지 않은 이메일 형식"}
@@ -96,6 +121,7 @@ function AuthPage() {
           onChange={handlePasswordChange}
           color="primary"
           margin="normal"
+          value={password}
         />
         <FormHelperText error={!passwordValid}>
           {password.length > 0 &&
@@ -114,6 +140,7 @@ function AuthPage() {
           onChange={handleRePasswordChange}
           color="primary"
           margin="normal"
+          value={repassword}
         />
         <FormHelperText error={!repasswordValid}>
           {repassword.length > 0 &&
@@ -121,13 +148,13 @@ function AuthPage() {
             "패스워드가 일치하지 않습니다"}
         </FormHelperText>
         <Button
-          // onClick={}
-          onClick={() =>
+          onClick={() => {
             registerMutation.mutate({
               email,
               password,
-            })
-          }
+            });
+            registerMutation.reset();
+          }}
           type="submit"
           fullWidth
           variant="contained"
