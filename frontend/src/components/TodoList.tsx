@@ -1,11 +1,31 @@
-type TODO = {
-  title: string;
-  content: string;
+import { useState } from "react";
+import { TodoResponseType } from "../type";
+import Todo from "./Todo";
+
+type TodoListProps = {
+  todoList: TodoResponseType[];
 };
 
-function TodoList(dataList: TODO[]) {
+function TodoList({ todoList }: TodoListProps) {
+  const [editMode, setIsEditMode] = useState("");
+
+  const handleEdit = (id: string) => {
+    setIsEditMode(id);
+  };
+
   return (
-    <div>{dataList.length > 0 && dataList.map((item) => <h3>투두우</h3>)}</div>
+    <div>
+      {todoList.map((item: TodoResponseType) => {
+        return (
+          <Todo
+            item={item}
+            key={item.id}
+            editMode={editMode}
+            handleEdit={handleEdit}
+          />
+        );
+      })}
+    </div>
   );
 }
 

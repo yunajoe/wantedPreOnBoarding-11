@@ -1,5 +1,5 @@
 import { TODO } from ".";
-import { TodoType } from "../type";
+import { EditTodoType, TodoType } from "../type";
 import { privateAPI } from "./instance/privateApi";
 
 export const todoApi = {
@@ -17,7 +17,7 @@ export const todoApi = {
     return privateAPI.get(`${TODO.READTODO}/${id}`);
   },
 
-  editTodo(id: string, title: string, content: string) {
+  editTodo({ id, title, content }: EditTodoType) {
     return privateAPI.put(`${TODO.EDITTODO}/${id}`, {
       title,
       content,

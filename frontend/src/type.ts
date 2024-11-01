@@ -2,6 +2,11 @@ export type TodoType = {
   title: string;
   content: string;
 };
+export type EditTodoType = {
+  id: string;
+  title: string;
+  content: string;
+};
 
 export type TodoResponseType = {
   id: string;

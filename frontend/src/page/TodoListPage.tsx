@@ -1,9 +1,8 @@
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import { Button, TextField } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { atom, useRecoilState } from "recoil";
 import { todoApi } from "../api/todos";
+import TodoList from "../components/TodoList";
 import { TodoResponseType } from "../type";
 const todoTitle = atom<string>({
   key: "todoTitle",
@@ -19,8 +18,6 @@ const todoList = atom<string[]>({
   default: [],
 });
 function TodoListPage() {
-  // const [dataList, setDataList] = useRecoilState<string[]>(todoList);
-  // const [state, setState] = useRecoilState(todo);
   const [title, setTitle] = useRecoilState(todoTitle);
   const [content, setContent] = useRecoilState(todoContent);
   const queryClient = useQueryClient();
@@ -30,7 +27,6 @@ function TodoListPage() {
   });
 
   const handleReset = () => {
-    console.log("리셋");
     setTitle("");
     setContent("");
   };
@@ -38,9 +34,20 @@ function TodoListPage() {
   const createTodoMutation = useMutation({
     mutationFn: todoApi.createTodo,
     onSuccess: () => {
-      console.log("onSuccess");
       getTodoListQuery.refetch();
       handleReset();
+    },
+  });
+
+  const editToMutation = useMutation({
+    mutationFn: todoApi.editTodo,
+    onSuccess: () => {
+      console.log("편집성고옹ㅇ");
+    },
+
+    onError: (error) => {
+      console.log("error", error);
+      alert("회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.");
     },
   });
 
@@ -116,42 +123,7 @@ function TodoListPage() {
           todo를 저장합니다
         </Button>
       </div>
-
-      <div>
-        {todoList.map((item: TodoResponseType) => {
-          return (
-            <div
-              key={item.id}
-              style={{
-                border: "1px solid gray",
-                display: "flex",
-                justifyContent: "space-between",
-                padding: 5,
-              }}
-            >
-              <h3
-                role="button"
-                style={{
-                  color: "black",
-                  border: "2px solid gray",
-                  padding: 10,
-                  cursor: "pointer",
-                }}
-              >
-                {item.title}
-              </h3>
-              <div style={{ display: "flex", columnGap: 10 }}>
-                <Button variant="outlined" startIcon={<EditIcon />}>
-                  Edit
-                </Button>
-                <Button variant="outlined" startIcon={<DeleteIcon />}>
-                  Delete
-                </Button>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <TodoList todoList={todoList} />
     </div>
   );
 }
