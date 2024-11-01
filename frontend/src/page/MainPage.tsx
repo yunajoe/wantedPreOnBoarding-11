@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import useForceUpdate from "../hooks/useForceUpdate";
 
 function MainPage() {
-  console.log("메인페이지가 렌더가 되었어요!");
   const navigate = useNavigate();
 
   const token = localStorage.getItem("accessToken");
@@ -24,6 +23,9 @@ function MainPage() {
       </Button>
       <Button variant="contained" onClick={() => navigate("/auth/login")}>
         로그인 페이지로가기
+      </Button>
+      <Button variant="contained" onClick={() => navigate("/todos")}>
+        투두 페이지로가기
       </Button>
     </>
   );

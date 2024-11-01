@@ -12,7 +12,7 @@ import {
 import Box from "@mui/material/Box";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { signUp } from "../api/auth";
+import { authApi } from "../api/auth";
 import { emailRegex, passwordRegx, rePasswordRgex } from "../utils/form";
 function AuthPage() {
   const [email, setEmail] = useState("");
@@ -22,8 +22,6 @@ function AuthPage() {
   const [passwordValid, setPasswordValid] = useState(false);
   const [repasswordValid, setRePasswordValid] = useState(false);
   const [isActivate, setIsActivate] = useState(true);
-
-  console.log("AuthPagerender====>");
 
   // 훅!
 
@@ -36,7 +34,7 @@ function AuthPage() {
   const queryClient = useQueryClient();
 
   const registerMutation = useMutation({
-    mutationFn: signUp,
+    mutationFn: authApi.authSignup,
     // mutation 함수가 호출되기 전에 실행
     onMutate: () => {
       console.log("onMutateFUnction");

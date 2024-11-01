@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { signIn } from "../api/auth";
+import { authApi } from "../api/auth";
 
 function AuthLoginPage() {
   const [email, setEmail] = useState("");
@@ -18,7 +18,7 @@ function AuthLoginPage() {
   // MutationFn에 할당할 때 그 매개변수를 객체로 묶어서 전달하기 때문에 타입이 맞지 않는 문제가 발생한다
   // React Query의 mutationFn은 비동기 작업을 수행해야 하므로, Promise를 반환해야 합니다.
   const loginMutation = useMutation({
-    mutationFn: signIn,
+    mutationFn: authApi.authLogin,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["user/login"] });
     },

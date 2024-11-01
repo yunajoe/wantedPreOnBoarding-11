@@ -1,40 +1,26 @@
-import { instance } from ".";
+import { AUTH } from ".";
+import { privateAPI } from "./instance/privateApi";
 
-type SignUpProps = {
+type SIGNUP = {
   email: string;
   password: string;
 };
-type SignInProps = {
+
+type SIGNIN = {
   email: string;
   password: string;
 };
-
-type VerifyResponseType = {
-  message: string;
-  result: string;
+export const authApi = {
+  authSignup({ email, password }: SIGNUP) {
+    return privateAPI.post(AUTH.SIGNUP, {
+      email,
+      password,
+    });
+  },
+  authLogin({ email, password }: SIGNIN) {
+    return privateAPI.post(AUTH.SIGNIN, {
+      email,
+      password,
+    });
+  },
 };
-export const signUp = async ({ email, password }: SignUpProps) => {
-  console.log("사인업API를 호출하였습니다");
-  const response = await instance.post("/users/create", {
-    email,
-    password,
-  });
-  return response;
-};
-
-export const signIn = async ({ email, password }: SignInProps) => {
-  console.log("로그인API를 호출하였습닏나");
-  const response = await instance.post("/users/login", {
-    email,
-    password,
-  });
-
-  return response;
-};
-
-// export const verifyAccesToken = async (token: string) => {
-//   const response = await instance.post("/users/token/verify", {
-//     token,
-//   });
-//   return response;
-// };

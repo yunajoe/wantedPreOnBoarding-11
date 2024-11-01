@@ -2,7 +2,10 @@
 
 import axios from "axios";
 
-// // 인증/인가를 위해 API 요청마다 headers에 조작이 필요없느 Instance(private Instance)
 export const publicAPI = axios.create({
   baseURL: "http://localhost:8080",
 });
+
+publicAPI.defaults.headers.get["Content-Type"] = "application/json";
+publicAPI.defaults.headers.post["Content-Type"] =
+  "application/x-www-form-urlencoded";
