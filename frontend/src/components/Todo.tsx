@@ -5,7 +5,10 @@ import { TodoResponseType } from "../type";
 
 type TodoProps = {
   item: TodoResponseType;
-  editMode: string;
+  editMode: {
+    editId: string;
+    isEdit: boolean;
+  };
   handleEdit: (id: string) => void;
 };
 
@@ -13,37 +16,48 @@ function Todo({ item, editMode, handleEdit }: TodoProps) {
   return (
     <div
       key={item.id}
-      className={item.id === editMode ? "todo active" : "todo"}
+      className={
+        item.id === editMode.editId && editMode.isEdit ? "todo active" : "todo"
+      }
     >
-      {/* title */}
-      <h3
-        role="button"
-        style={{
-          color: "black",
-          border: "2px solid gray",
-          padding: 10,
-          cursor: "pointer",
-        }}
-      >
-        {item.title}
-      </h3>
-      {/* content */}
-
-      <div style={{ display: "flex", columnGap: 10 }}>
-        {/* edit 버튼 */}
-        <Button
-          variant="outlined"
-          startIcon={<EditIcon />}
-          onClick={() => {
-            handleEdit(item.id);
+      <div className="sub_todo">
+        <h3
+          role="button"
+          style={{
+            color: "black",
+            border: "2px solid gray",
+            padding: 10,
+            cursor: "pointer",
           }}
         >
-          Edit
-        </Button>
-        {/* delete 버튼 */}
-        <Button variant="outlined" startIcon={<DeleteIcon />}>
-          Delete
-        </Button>
+          {item.title}
+        </h3>
+
+        <div style={{ display: "flex", columnGap: 10 }}>
+          {/* edit 버튼 */}
+          <Button
+            variant="outlined"
+            startIcon={<EditIcon />}
+            onClick={() => {
+              handleEdit(item.id);
+            }}
+          >
+            Edit
+          </Button>
+          {/* delete 버튼 */}
+          <Button variant="outlined" startIcon={<DeleteIcon />}>
+            Delete
+          </Button>
+        </div>
+      </div>
+      <div
+        className={
+          item.id === editMode.editId && editMode.isEdit
+            ? "todo_content active"
+            : "todo_content"
+        }
+      >
+        {item.content}
       </div>
     </div>
   );

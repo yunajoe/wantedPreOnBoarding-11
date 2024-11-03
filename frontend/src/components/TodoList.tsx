@@ -7,14 +7,30 @@ type TodoListProps = {
 };
 
 function TodoList({ todoList }: TodoListProps) {
-  const [editMode, setIsEditMode] = useState("");
+  const [editMode, setIsEditMode] = useState({
+    editId: "",
+    isEdit: false,
+  });
 
   const handleEdit = (id: string) => {
-    setIsEditMode(id);
+    setIsEditMode((prev) => {
+      if (prev.editId === id) {
+        return {
+          ...prev,
+          isEdit: !prev.isEdit,
+        };
+      }
+      return {
+        editId: id,
+        //  아래처럼 하면은 왜 안되는가
+        // isEdit: !prev.isEdit,
+        isEdit: true,
+      };
+    });
   };
 
   return (
-    <div>
+    <div className="container">
       {todoList.map((item: TodoResponseType) => {
         return (
           <Todo
