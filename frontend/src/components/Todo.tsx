@@ -1,6 +1,7 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { TodoResponseType } from "../type";
 
 type TodoProps = {
@@ -13,6 +14,12 @@ type TodoProps = {
 };
 
 function Todo({ item, editMode, handleEdit }: TodoProps) {
+  const navigate = useNavigate();
+
+  const handleNavigateToEditPage = (editId: string) => {
+    navigate(`/todos/${editId}`);
+  };
+
   return (
     <div
       key={item.id}
@@ -32,15 +39,19 @@ function Todo({ item, editMode, handleEdit }: TodoProps) {
         >
           {item.title}
         </h3>
-
         <div style={{ display: "flex", columnGap: 10 }}>
+          <Button
+            onClick={() => {
+              handleEdit(item.id);
+            }}
+          >
+            상세내용 확인하기
+          </Button>
           {/* edit 버튼 */}
           <Button
             variant="outlined"
             startIcon={<EditIcon />}
-            onClick={() => {
-              handleEdit(item.id);
-            }}
+            onClick={() => handleNavigateToEditPage(item.id)}
           >
             Edit
           </Button>
