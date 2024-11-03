@@ -46,6 +46,15 @@
   width: 100px;
   height: 100px;
 }
+/* list */
+.checkbox {
+  cursor: pointer;
+}
+.title_container {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
 
 /* edit */
 

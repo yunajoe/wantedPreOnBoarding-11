@@ -28,17 +28,23 @@ function Todo({ item, editMode, handleEdit }: TodoProps) {
       }
     >
       <div className="sub_todo">
-        <h3
-          role="button"
-          style={{
-            color: "black",
-            border: "2px solid gray",
-            padding: 10,
-            cursor: "pointer",
-          }}
-        >
-          {item.title}
-        </h3>
+        <div className="title_container">
+          <div>
+            <input type="checkbox" id={editMode.editId} className="checkbox" />
+          </div>
+          <h3
+            role="button"
+            style={{
+              color: "black",
+              border: "2px solid gray",
+              padding: 10,
+              cursor: "pointer",
+            }}
+          >
+            {item.title}
+          </h3>
+        </div>
+
         <div style={{ display: "flex", columnGap: 10 }}>
           <Button
             onClick={() => {

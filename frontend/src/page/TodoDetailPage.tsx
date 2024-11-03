@@ -23,7 +23,6 @@ function TodoDetailPage() {
   const updateTodoQuery = useMutation({
     mutationFn: todoApi.editTodo,
     onSuccess: () => {
-      console.log("update가 되었습니다앙ㅇ");
       navigate("/todos");
     },
   });

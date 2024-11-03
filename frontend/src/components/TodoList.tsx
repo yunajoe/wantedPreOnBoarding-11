@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import { useState } from "react";
 import { TodoResponseType } from "../type";
 import Todo from "./Todo";
@@ -30,17 +31,24 @@ function TodoList({ todoList }: TodoListProps) {
   };
 
   return (
-    <div className="container">
-      {todoList.map((item: TodoResponseType) => {
-        return (
-          <Todo
-            item={item}
-            key={item.id}
-            editMode={editMode}
-            handleEdit={handleEdit}
-          />
-        );
-      })}
+    <div>
+      <div>
+        <Button variant="contained">순서올리기</Button>
+        <Button variant="contained">순서내리기</Button>
+      </div>
+
+      <div className="container">
+        {todoList.map((item: TodoResponseType) => {
+          return (
+            <Todo
+              item={item}
+              key={item.id}
+              editMode={editMode}
+              handleEdit={handleEdit}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
