@@ -3,6 +3,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { TodoResponseType } from "../type";
+import "./Todo.css";
 
 type TodoProps = {
   item: TodoResponseType;
@@ -28,19 +29,11 @@ function Todo({ item, editMode, handleEdit }: TodoProps) {
       }
     >
       <div className="sub_todo">
-        <div className="title_container">
+        <div className="todo_title">
           <div>
             <input type="checkbox" id={editMode.editId} className="checkbox" />
           </div>
-          <h3
-            role="button"
-            style={{
-              color: "black",
-              border: "2px solid gray",
-              padding: 10,
-              cursor: "pointer",
-            }}
-          >
+          <h3 className="todo_title_button" role="button">
             {item.title}
           </h3>
         </div>

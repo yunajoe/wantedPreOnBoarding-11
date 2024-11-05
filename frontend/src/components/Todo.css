@@ -1,0 +1,44 @@
+/* todo */
+.todo {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #e2e3e6;
+  box-shadow: -5px -5px 15px rgba(255, 255, 255, 0.6),
+    5px 5px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: flex-grow 1.5s ease; /* 부드러운 전환 추가 */
+}
+
+.todo.active {
+  flex-grow: 4;
+}
+
+.sub_todo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.todo_content {
+  opacity: 0;
+  transition: opacity 0.5s ease-in;
+}
+.todo_content.active {
+  opacity: 1;
+}
+.todo_title {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.todo_title_button {
+  color: black;
+  border: 2px solid gray;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.checkbox {
+  cursor: pointer;
+}
