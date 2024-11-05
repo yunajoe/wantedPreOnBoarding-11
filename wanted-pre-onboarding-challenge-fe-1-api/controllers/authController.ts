@@ -2,9 +2,9 @@ import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import * as userService from "../services/userService";
+import { createToken, verifyToken } from "../utils/authorizeUtils";
 import { createError } from "../utils/responseUtils";
 import { loginValidator, USER_VALIDATION_ERRORS } from "../utils/validator";
-import { createToken } from "../utils/authorizeUtils";
 
 import type { UserInput } from "../types/users";
 
@@ -55,4 +55,14 @@ export const signUp = async (req: Request, res: Response) => {
       token: createToken(email),
     });
   }
+};
+
+// 토큰 verify
+export const verifyTokenAPI = async (req: Request, res: Response) => {
+  const { token } = req.body;
+  const result = verifyToken(token);
+  return res.status(StatusCodes.OK).send({
+    message: "토큰을 decode한결과입니다",
+    result,
+  });
 };
