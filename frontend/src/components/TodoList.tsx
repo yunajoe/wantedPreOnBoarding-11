@@ -9,6 +9,7 @@ type TodoListProps = {
 };
 
 function TodoList({ todoList }: TodoListProps) {
+  const [checkInput, setCheckInput] = useState<[] | string[]>([]);
   const [editMode, setIsEditMode] = useState({
     editId: "",
     isEdit: false,
@@ -46,6 +47,8 @@ function TodoList({ todoList }: TodoListProps) {
               key={item.id}
               editMode={editMode}
               handleEdit={handleEdit}
+              checkInput={checkInput}
+              setCheckInput={setCheckInput}
             />
           );
         })}

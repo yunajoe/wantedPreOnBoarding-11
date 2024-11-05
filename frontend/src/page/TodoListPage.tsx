@@ -47,11 +47,8 @@ function TodoListPage() {
 
     onError: (error) => {
       console.log("error", error);
-      alert("회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.");
     },
   });
-
-  // console.log("getTodoListQuery입니다", getTodoListQuery.data);
 
   const handleTitleChange = (e: any) => {
     setTitle(e.target.value);
