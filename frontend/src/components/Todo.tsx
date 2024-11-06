@@ -1,12 +1,13 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Button } from "@mui/material";
-import { SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { TodoResponseType } from "../type";
 import "./Todo.css";
 
 type TodoProps = {
+  index: number;
   item: TodoResponseType;
   editMode: {
     editId: string;
@@ -15,11 +16,27 @@ type TodoProps = {
   handleEdit: (id: string) => void;
 
   // for input 선택할때 넣어야 하는 array
-  checkInput: [] | string[];
-  setCheckInput: React.Dispatch<SetStateAction<string[] | []>>;
+  checkValue: string;
+  setCheckValue: Dispatch<SetStateAction<string>>;
+  checkInputArr: [] | number[];
+  setCheckInputArr: Dispatch<SetStateAction<number[] | []>>;
+  handleChangeValue: (
+    e: React.ChangeEvent<HTMLInputElement>,
+    targetIndex: number
+  ) => void;
 };
 
-function Todo({ item, editMode, handleEdit }: TodoProps) {
+function Todo({
+  index,
+  item,
+  editMode,
+  handleEdit,
+  checkValue,
+  setCheckValue,
+  checkInputArr,
+  setCheckInputArr,
+  handleChangeValue,
+}: TodoProps) {
   const navigate = useNavigate();
 
   const handleNavigateToEditPage = (editId: string) => {
@@ -36,7 +53,13 @@ function Todo({ item, editMode, handleEdit }: TodoProps) {
       <div className="sub_todo">
         <div className="todo_title">
           <div>
-            <input type="checkbox" id={editMode.editId} className="checkbox" />
+            <input
+              type="checkbox"
+              id={editMode.editId}
+              className="checkbox"
+              value={editMode.editId}
+              onChange={(e) => handleChangeValue(e, index)}
+            />
           </div>
           <h3 className="todo_title_button" role="button">
             {item.title}

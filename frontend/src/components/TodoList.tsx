@@ -9,11 +9,18 @@ type TodoListProps = {
 };
 
 function TodoList({ todoList }: TodoListProps) {
-  const [checkInput, setCheckInput] = useState<[] | string[]>([]);
+  const [checkValue, setCheckValue] = useState("");
+  const [checkInputArr, setCheckInputArr] = useState<[] | number[]>([]);
   const [editMode, setIsEditMode] = useState({
     editId: "",
     isEdit: false,
   });
+
+  console.log("TODOLIST", todoList);
+  console.log(
+    "순서가 변경이 될 인덱스값들입니당아 TODOLIST 컴퍼넌트",
+    checkInputArr
+  );
 
   const handleEdit = (id: string) => {
     setIsEditMode((prev) => {
@@ -31,7 +38,23 @@ function TodoList({ todoList }: TodoListProps) {
       };
     });
   };
+  const handleChangeValue = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    targetIndex: number
+  ) => {
+    const isChecked = e.target.checked;
 
+    if (isChecked) {
+      setCheckInputArr((prev) => {
+        return [...prev, targetIndex];
+      });
+    } else {
+      setCheckInputArr((prev) => {
+        const result = prev.filter((item) => item !== targetIndex);
+        return result;
+      });
+    }
+  };
   return (
     <div className="container">
       <div className="sort_button_container">
@@ -40,15 +63,19 @@ function TodoList({ todoList }: TodoListProps) {
       </div>
 
       <div className="todo_list">
-        {todoList.map((item: TodoResponseType) => {
+        {todoList.map((item: TodoResponseType, index: number) => {
           return (
             <Todo
+              index={index}
               item={item}
               key={item.id}
               editMode={editMode}
               handleEdit={handleEdit}
-              checkInput={checkInput}
-              setCheckInput={setCheckInput}
+              checkValue={checkValue}
+              setCheckValue={setCheckValue}
+              checkInputArr={checkInputArr}
+              setCheckInputArr={setCheckInputArr}
+              handleChangeValue={handleChangeValue}
             />
           );
         })}
