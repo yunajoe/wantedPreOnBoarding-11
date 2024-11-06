@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import { TodoResponseType } from "../type";
+import { upOrderList } from "../utils/todo";
 import Todo from "./Todo";
 import "./TodoList.css";
 
@@ -15,12 +16,6 @@ function TodoList({ todoList }: TodoListProps) {
     editId: "",
     isEdit: false,
   });
-
-  console.log("TODOLIST", todoList);
-  console.log(
-    "순서가 변경이 될 인덱스값들입니당아 TODOLIST 컴퍼넌트",
-    checkInputArr
-  );
 
   const handleEdit = (id: string) => {
     setIsEditMode((prev) => {
@@ -55,6 +50,11 @@ function TodoList({ todoList }: TodoListProps) {
       });
     }
   };
+
+  console.log("todoList", todoList);
+  console.log("checkInputArr", checkInputArr);
+  upOrderList(todoList, checkInputArr);
+  // upOrderList([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], checkInputArr);
   return (
     <div className="container">
       <div className="sort_button_container">
