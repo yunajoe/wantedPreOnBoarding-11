@@ -1,7 +1,6 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Button } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { TodoResponseType } from "../type";
 import "./Todo.css";
@@ -14,12 +13,6 @@ type TodoProps = {
     isEdit: boolean;
   };
   handleEdit: (id: string) => void;
-
-  // for input 선택할때 넣어야 하는 array
-  checkValue: string;
-  setCheckValue: Dispatch<SetStateAction<string>>;
-  checkInputArr: [] | number[];
-  setCheckInputArr: Dispatch<SetStateAction<number[] | []>>;
   handleChangeValue: (
     e: React.ChangeEvent<HTMLInputElement>,
     targetIndex: number
@@ -31,10 +24,6 @@ function Todo({
   item,
   editMode,
   handleEdit,
-  checkValue,
-  setCheckValue,
-  checkInputArr,
-  setCheckInputArr,
   handleChangeValue,
 }: TodoProps) {
   const navigate = useNavigate();

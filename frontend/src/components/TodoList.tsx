@@ -1,16 +1,16 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { TodoResponseType } from "../type";
 import { upOrderList } from "../utils/todo";
 import Todo from "./Todo";
 import "./TodoList.css";
 
 type TodoListProps = {
-  todoList: TodoResponseType[];
+  todoListArr: TodoResponseType[];
+  setTodoListArr: Dispatch<SetStateAction<TodoResponseType[] | []>>;
 };
 
-function TodoList({ todoList }: TodoListProps) {
-  const [checkValue, setCheckValue] = useState("");
+function TodoList({ todoListArr, setTodoListArr }: TodoListProps) {
   const [checkInputArr, setCheckInputArr] = useState<[] | number[]>([]);
   const [editMode, setIsEditMode] = useState({
     editId: "",
@@ -50,20 +50,25 @@ function TodoList({ todoList }: TodoListProps) {
       });
     }
   };
+  const handleUpOrder = () => {
+    const newArr = upOrderList(todoListArr, checkInputArr);
+    // console.log("순서올리기 버튼을 눌렀어유", newArr);
+    setTodoListArr(newArr);
+  };
 
-  console.log("todoList", todoList);
-  console.log("checkInputArr", checkInputArr);
-  upOrderList(todoList, checkInputArr);
-  // upOrderList([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], checkInputArr);
+  // console.log("todoListArr", todoListArr);
+
   return (
     <div className="container">
       <div className="sort_button_container">
-        <Button variant="contained">순서올리기</Button>
+        <Button variant="contained" onClick={handleUpOrder}>
+          순서올리기
+        </Button>
         <Button variant="contained">순서내리기</Button>
       </div>
 
       <div className="todo_list">
-        {todoList.map((item: TodoResponseType, index: number) => {
+        {todoListArr.map((item: TodoResponseType, index: number) => {
           return (
             <Todo
               index={index}
@@ -71,10 +76,6 @@ function TodoList({ todoList }: TodoListProps) {
               key={item.id}
               editMode={editMode}
               handleEdit={handleEdit}
-              checkValue={checkValue}
-              setCheckValue={setCheckValue}
-              checkInputArr={checkInputArr}
-              setCheckInputArr={setCheckInputArr}
               handleChangeValue={handleChangeValue}
             />
           );

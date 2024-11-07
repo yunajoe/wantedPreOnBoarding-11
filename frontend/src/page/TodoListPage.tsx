@@ -1,30 +1,22 @@
 import { Button, TextField } from "@mui/material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { atom, useRecoilState } from "recoil";
+import { useEffect, useState } from "react";
 import { todoApi } from "../api/todos";
 import TodoList from "../components/TodoList";
 import { TodoResponseType } from "../type";
-const todoTitle = atom<string>({
-  key: "todoTitle",
-  default: "",
-});
 
-const todoContent = atom<string>({
-  key: "todoContent",
-  default: "",
-});
-const todoList = atom<string[]>({
-  key: "myTodoList",
-  default: [],
-});
 function TodoListPage() {
-  const [title, setTitle] = useRecoilState(todoTitle);
-  const [content, setContent] = useRecoilState(todoContent);
+  const [count, setCount] = useState(0);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [todoListArr, setTodoListArr] = useState<[] | TodoResponseType[]>([]);
+
   const queryClient = useQueryClient();
   const getTodoListQuery = useQuery({
     queryKey: ["todos"],
     queryFn: todoApi.getTodoList,
   });
+  const todoList: TodoResponseType[] = getTodoListQuery.data?.data || [];
 
   const handleReset = () => {
     setTitle("");
@@ -39,17 +31,6 @@ function TodoListPage() {
     },
   });
 
-  const editToMutation = useMutation({
-    mutationFn: todoApi.editTodo,
-    onSuccess: () => {
-      console.log("편집성고옹ㅇ");
-    },
-
-    onError: (error) => {
-      console.log("error", error);
-    },
-  });
-
   const handleTitleChange = (e: any) => {
     setTitle(e.target.value);
   };
@@ -58,17 +39,29 @@ function TodoListPage() {
     setContent(e.target.value);
   };
 
+  //  처음에 데이터를 받아와서 init render할떄
+  useEffect(() => {
+    console.log("이펙트가 호출이 되었습니다");
+    setTodoListArr(todoList);
+  }, [todoList]);
+
+  // useEffect(() => {
+  //   setTodoListArr(todoListArr);
+  // }, [todoListArr]);
+
   if (getTodoListQuery.isLoading) {
-    return <div>로딩듕</div>;
+    return <div>로딩중</div>;
   }
 
-  //  getTodoListQuery?.data 는 무조건 query문에 있는것이고 data는 axios response떄문에 있따
+  // console.log("todoList", todoList);
+  console.log("State에 값을 담을 todoList", todoListArr);
 
-  const todoList: TodoResponseType[] = getTodoListQuery.data?.data || [];
+  //  getTodoListQuery?.data 는 무조건 query문에 있는것이고 data는 axios response떄문에 있따
 
   return (
     <div>
       <h1>TODO작성</h1>
+      <h1>{count}</h1>
       <div
         style={{
           display: "flex",
@@ -120,7 +113,7 @@ function TodoListPage() {
           todo를 저장합니다
         </Button>
       </div>
-      <TodoList todoList={todoList} />
+      <TodoList todoListArr={todoListArr} setTodoListArr={setTodoListArr} />
     </div>
   );
 }

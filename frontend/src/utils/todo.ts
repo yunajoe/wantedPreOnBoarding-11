@@ -39,13 +39,10 @@ export const upOrderList = (arr: TodoResponseType[], selected: number[]) => {
     if (result.length > 0) {
       continue;
     }
-    // if (selected.includes(arr[prevIndex])) {
-    //   continue;
-    // }
 
     //  swap
     [arr[prevIndex], arr[index]] = [arr[index], arr[prevIndex]];
   }
 
-  console.log("정답앙========>", arr);
+  return arr;
 };
