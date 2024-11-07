@@ -1,34 +1,33 @@
 import { Button, TextField } from "@mui/material";
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { todoApi } from "../api/todos";
 import TodoList from "../components/TodoList";
 import { TodoResponseType } from "../type";
 
 function TodoListPage() {
   console.log("todoListPage컴퍼넌트");
+  const [count, setCount] = useState(0);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [todoListArr, setTodoListArr] = useState<[] | TodoResponseType[]>([]);
 
-  const getTodoListQuery = useQuery({
-    queryKey: ["todos"],
-    queryFn: todoApi.getTodoList,
-  });
-  const todoList: TodoResponseType[] = getTodoListQuery.data?.data || [];
+  // const getTodoListQuery = useQuery({
+  //   queryKey: ["todos"],
+  //   queryFn: todoApi.getTodoList,
+  // });
+  // const todoList: TodoResponseType[] = getTodoListQuery.data?.data || [];
 
   const handleReset = () => {
     setTitle("");
     setContent("");
   };
 
-  const createTodoMutation = useMutation({
-    mutationFn: todoApi.createTodo,
-    onSuccess: () => {
-      getTodoListQuery.refetch();
-      handleReset();
-    },
-  });
+  // const createTodoMutation = useMutation({
+  //   mutationFn: todoApi.createTodo,
+  //   onSuccess: () => {
+  //     getTodoListQuery.refetch();
+  //     handleReset();
+  //   },
+  // });
 
   const handleTitleChange = (e: any) => {
     setTitle(e.target.value);
@@ -40,7 +39,7 @@ function TodoListPage() {
 
   //  처음에 데이터를 받아와서 init render할떄
   useEffect(() => {
-    setTodoListArr(todoList);
+    setTodoListArr([...todoList]);
   }, [todoList]);
 
   // if (getTodoListQuery.isLoading) {
@@ -55,6 +54,7 @@ function TodoListPage() {
   return (
     <div>
       <h1>TODO작성</h1>
+      <h1>{count}</h1>
 
       <div
         style={{
@@ -107,7 +107,12 @@ function TodoListPage() {
           todo를 저장합니다
         </Button>
       </div>
-      <TodoList todoListArr={todoListArr} setTodoListArr={setTodoListArr} />
+      <TodoList
+        todoListArr={todoListArr}
+        setTodoListArr={setTodoListArr}
+        count={count}
+        setCount={setCount}
+      />
     </div>
   );
 }
