@@ -6,7 +6,6 @@ import TodoList from "../components/TodoList";
 import { TodoResponseType } from "../type";
 
 function TodoListPage() {
-  console.log("todoListPage컴퍼넌트");
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [todoListArr, setTodoListArr] = useState<[] | TodoResponseType[]>([]);

@@ -14,10 +14,12 @@ const sortAscending = (arr: number[]) => {
   });
 };
 
-//  selected array에 있는 값들을 index 요소라고 생각하면 된다.
-// selcted = [0,3,4]
 export const upOrderList = (arr: TodoResponseType[], selected: number[]) => {
   sortAscending(selected); // 오름차순 정렬
+  const selectedWithObject = selected.map((index) => {
+    return arr[index];
+  });
+
   for (let i = 0; i < arr.length; i++) {
     if (i >= selected.length) {
       break;
@@ -28,15 +30,11 @@ export const upOrderList = (arr: TodoResponseType[], selected: number[]) => {
       continue;
     }
 
-    const newSelectedArr = [];
-    for (const idx of selected) {
-      newSelectedArr.push(arr[idx]);
-    }
-
-    const result = newSelectedArr.filter(
+    const result = selectedWithObject.findIndex(
       (item) => item.id === arr[prevIndex].id
     );
-    if (result.length > 0) {
+
+    if (result !== -1) {
       continue;
     }
 

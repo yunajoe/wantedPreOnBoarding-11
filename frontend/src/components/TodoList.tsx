@@ -1,6 +1,5 @@
 import { Button } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
-import useForceUpdate from "../hooks/useForceUpdate";
 import { TodoResponseType } from "../type";
 import { upOrderList } from "../utils/todo";
 import Todo from "./Todo";
@@ -12,15 +11,11 @@ type TodoListProps = {
 };
 
 function TodoList({ todoListArr, setTodoListArr }: TodoListProps) {
-  console.log("todoList컴퍼넌트");
-
   const [checkInputArr, setCheckInputArr] = useState<[] | number[]>([]);
   const [editMode, setIsEditMode] = useState({
     editId: "",
     isEdit: false,
   });
-
-  const aaa = useForceUpdate("");
 
   const handleEdit = (id: string) => {
     setIsEditMode((prev) => {
@@ -55,9 +50,9 @@ function TodoList({ todoListArr, setTodoListArr }: TodoListProps) {
       });
     }
   };
+
   const handleUpOrder = () => {
     const newArr = upOrderList(todoListArr, checkInputArr);
-    console.log("순서올리기 버튼을 눌렀어유", newArr);
     setTodoListArr([...newArr]);
   };
 
