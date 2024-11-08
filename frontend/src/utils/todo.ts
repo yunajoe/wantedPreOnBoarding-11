@@ -14,8 +14,21 @@ const sortAscending = (arr: number[]) => {
   });
 };
 
+// 내림차순
+const sortDescending = (arr: number[]) => {
+  return arr.sort((a, b) => {
+    if (a > b) {
+      return -1;
+    }
+    if (a < b) {
+      return 1;
+    }
+    return 0;
+  });
+};
+
 export const upOrderList = (arr: TodoResponseType[], selected: number[]) => {
-  sortAscending(selected); // 오름차순 정렬
+  sortAscending(selected);
   const selectedWithObject = selected.map((index) => {
     return arr[index];
   });
@@ -42,5 +55,37 @@ export const upOrderList = (arr: TodoResponseType[], selected: number[]) => {
     [arr[prevIndex], arr[index]] = [arr[index], arr[prevIndex]];
   }
 
+  return arr;
+};
+
+//  upDownList
+
+export const upDownList = (arr: TodoResponseType[], selected: number[]) => {
+  sortDescending(selected);
+  const selectedWithObject = selected.map((index) => {
+    return arr[index];
+  });
+  for (let i = 0; i < arr.length; i++) {
+    if (i >= selected.length) {
+      break;
+    }
+    const index = selected[i];
+    const nextIndex = selected[i] + 1;
+
+    // 바꿀 인덱스가 현재 길이보다 길면은?
+    if (nextIndex >= arr.length) {
+      continue;
+    }
+
+    const result = selectedWithObject.findIndex(
+      (item) => item.id === arr[nextIndex].id
+    );
+
+    if (result !== -1) {
+      continue;
+    }
+
+    [arr[index], arr[nextIndex]] = [arr[nextIndex], arr[index]];
+  }
   return arr;
 };

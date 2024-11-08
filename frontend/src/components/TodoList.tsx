@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { Dispatch, SetStateAction, useState } from "react";
 import { TodoResponseType } from "../type";
-import { upOrderList } from "../utils/todo";
+import { upDownList, upOrderList } from "../utils/todo";
 import Todo from "./Todo";
 import "./TodoList.css";
 
@@ -56,13 +56,22 @@ function TodoList({ todoListArr, setTodoListArr }: TodoListProps) {
     setTodoListArr([...newArr]);
   };
 
+  const handleDownOrder = () => {
+    const newArr = upDownList(todoListArr, checkInputArr);
+    setTodoListArr([...newArr]);
+  };
+
+  // 하잉
+
   return (
     <div className="container">
       <div className="sort_button_container">
         <Button variant="contained" onClick={handleUpOrder}>
           순서올리기
         </Button>
-        <Button variant="contained">순서내리기</Button>
+        <Button variant="contained" onClick={handleDownOrder}>
+          순서내리기
+        </Button>
       </div>
 
       <div className="todo_list">

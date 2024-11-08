@@ -15,8 +15,6 @@ function TodoListPage() {
     queryFn: todoApi.getTodoList,
   });
 
-  //   getTodoListQuery?.data 는 무조건 query문에 있는것이고 data는 axios response떄문에 있따
-
   const todoList: TodoResponseType[] = getTodoListQuery.data?.data || [];
 
   const handleReset = () => {
@@ -45,17 +43,9 @@ function TodoListPage() {
     setTodoListArr(todoList);
   }, [todoList]);
 
-  // if (getTodoListQuery.isLoading) {
-  //   return <div>로딩중</div>;
-  // }
-
-  // console.log("todoList", todoList);
-  // console.log("State에 값을 담을 todoList", todoListArr);
-
   return (
     <div>
       <h1>TODO작성</h1>
-
       <div
         style={{
           display: "flex",
